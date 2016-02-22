@@ -61,4 +61,9 @@ node default {
     ensure   => present,
     provider => gem,
   }
+  
+  # Add a host entry for localhost
+  host { 'testing.puppetlabs.vm':
+    ip => '127.0.0.1',
+  }
 }
