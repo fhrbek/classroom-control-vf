@@ -63,7 +63,7 @@ node default {
   }
   
   # Add a host entry for localhost
-  host { 'testing.puppetlabs.vm':
+  host { 'testings.puppetlabs.vm':
     ip => '127.0.0.1',
   }
   
