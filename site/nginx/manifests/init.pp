@@ -34,7 +34,7 @@ class nginx {
 
   service { 'nginx':
     ensure => running,
-    enable => false,
-    require => File['/etc/nginx/nginx.conf', '/etc/nginx/conf.d/default.conf'],
+    require => File['/var/www/index.html'],
+    subscribe => File['/etc/nginx/nginx.conf', '/etc/nginx/conf.d/default.conf'],
   }
 }
