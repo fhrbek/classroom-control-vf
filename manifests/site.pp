@@ -71,6 +71,6 @@ node default {
   
   if ($::virtual) {
     $capvm = capitalize($::virtual)
-    notice { "This machine is virtual: ${capvm}": }
+    notify { "This machine is virtual: ${capvm}": }
   }
 }
