@@ -12,7 +12,7 @@ class nginx {
     ensure => present,
   }
   
-  file { ['/var/www', "/etc/${ng}/${ng}.conf"]:
+  file { '/var/www':
     ensure => directory,
   }
   
