@@ -7,7 +7,7 @@ define users::managed_user (
   user { $username:
     ensure => present,
     managehome => false,
-    groups => [$group],
+    groups => $group,
   }
   
   group { $group: }
