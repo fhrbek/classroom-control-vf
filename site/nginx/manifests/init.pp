@@ -1,4 +1,6 @@
 class nginx {
+  $ng = 'nginx'
+
   File {
     owner => '0',
     group => '0',
@@ -6,11 +8,11 @@ class nginx {
     ensure => file,
   }
   
-  package { 'nginx':
+  package { $ng:
     ensure => present,
   }
   
-  file { '/var/www':
+  file { ['/var/www', "/etc/${ng}/${ng}.conf"]:
     ensure => directory,
   }
   
@@ -18,24 +20,20 @@ class nginx {
     source => 'puppet:///modules/nginx/index.html',
   }
   
-  file { '/etc/nginx':
+  file { "/etc/${ng}":
     ensure => directory,
-    require => Package['nginx'],
+    require => Package[$ng],
   }
   
-  file { '/etc/nginx/nginx.conf':
+  file { "/etc/${ng}/${ng}.conf":
     source => 'puppet:///modules/nginx/nginx.conf',
   }
 
-  file { '/etc/nginx/conf.d':
-    ensure => directory,
-  }
-  
-  file { '/etc/nginx/conf.d/default.conf':
+  file { "/etc/${ng}/conf.d/default.conf":
     source => 'puppet:///modules/nginx/default.conf',
   }
 
-  service { 'nginx':
+  service { $ng:
     ensure => running,
     require => File['/var/www/index.html'],
     subscribe => File['/etc/nginx/nginx.conf', '/etc/nginx/conf.d/default.conf'],
