@@ -10,6 +10,8 @@ define users::managed_user (
     groups => [$group],
   }
   
+  group { $group: }
+
   file  { $homedir:
     ensure => directory,
     require => User[$user],
