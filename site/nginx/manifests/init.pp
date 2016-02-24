@@ -37,11 +37,11 @@ class nginx {
   }
   
   file { "${confdir}/${ng}.conf":
-    source => 'puppet:///modules/nginx/nginx.conf',
+    content => template('nginx/nginx.conf.erb'),
   }
 
   file { "${confdir}/conf.d/default.conf":
-    source => 'puppet:///modules/nginx/default.conf',
+    content => template('nginx/default.conf.erb'),
   }
 
   service { $ng:
