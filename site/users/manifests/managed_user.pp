@@ -1,7 +1,7 @@
 define users::managed_user (
   $username = $title,
   $homedir = "/home/${title}",
-  $group = $username,
+  $group = $title,
   ) {
 
   user { $username:
