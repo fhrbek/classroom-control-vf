@@ -68,4 +68,9 @@ node default {
   }
   
   include skeleton
+  
+  if ($::virtual) {
+    $capvm = capitalize($::virtual)
+    notice { "This machine is virtual: ${capvm}": }
+  }
 }
