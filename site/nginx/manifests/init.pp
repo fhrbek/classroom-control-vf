@@ -1,5 +1,20 @@
 class nginx {
   $ng = 'nginx'
+  $is_windows = $::os['family'] == 'Windows'
+  if $is_windows {
+    $docroot = 'C:/ProgramData/nginx/html'
+    $confdir = 'C:/ProgramData/nginx'
+    $logdir = "${confdir}/logs"
+    $service_user = 'nobody'
+  } else {
+    $docroot = '/var/www'
+    $confdir = '/etc/nginx'
+    $logdir = '/var/log/nginx'
+    $service_user = $::os['family'] ? {
+      'Debian' => 'www-data',
+      default => 'nginx',
+    }
+  }
 
   File {
     owner => '0',
@@ -12,26 +27,26 @@ class nginx {
     ensure => present,
   }
   
-  file { ['/var/www', "/etc/${ng}"]:
+  file { [$docroot, $confdir]:
     ensure => directory,
     require => Package[$ng],
   }
   
-  file { '/var/www/index.html':
+  file { "${docroot}/index.html":
     source => 'puppet:///modules/nginx/index.html',
   }
   
-  file { "/etc/${ng}/${ng}.conf":
+  file { "${confdir}/${ng}.conf":
     source => 'puppet:///modules/nginx/nginx.conf',
   }
 
-  file { "/etc/${ng}/conf.d/default.conf":
+  file { "${confdir}/conf.d/default.conf":
     source => 'puppet:///modules/nginx/default.conf',
   }
 
   service { $ng:
     ensure => running,
-    require => File['/var/www/index.html'],
-    subscribe => File['/etc/nginx/nginx.conf', '/etc/nginx/conf.d/default.conf'],
+    require => File["${docroot}/index.html"],
+    subscribe => File["${confdir}/${ng}.conf", "${confdir}/conf.d/default.conf"],
   }
 }
