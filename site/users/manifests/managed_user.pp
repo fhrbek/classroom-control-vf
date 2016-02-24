@@ -8,10 +8,11 @@ define users::managed_user (
     ensure => present,
     managehome => false,
     groups => $group,
-    require => Group[$group],
   }
   
-  group { $group: }
+  group { $group:
+    ensure => present,
+  }
 
   file  { $homedir:
     ensure => directory,
