@@ -12,17 +12,13 @@ class nginx {
     ensure => present,
   }
   
-  file { '/var/www':
+  file { ['/var/www', "/etc/${ng}"]:
     ensure => directory,
+    require => Package[$ng],
   }
   
   file { '/var/www/index.html':
     source => 'puppet:///modules/nginx/index.html',
-  }
-  
-  file { "/etc/${ng}":
-    ensure => directory,
-    require => Package[$ng],
   }
   
   file { "/etc/${ng}/${ng}.conf":
