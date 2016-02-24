@@ -8,6 +8,7 @@ define users::managed_user (
     ensure => present,
     managehome => false,
     groups => $group,
+    require => Group[$group],
   }
   
   group { $group: }
