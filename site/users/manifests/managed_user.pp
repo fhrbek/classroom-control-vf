@@ -1,10 +1,10 @@
 define users::managed_user (
   $username = $title,
-  $homedir = "/home/${username}",
+  $homedir = "/home/${title}",
   $group = $username,
   ) {
 
-  user { $title:
+  user { $username:
     ensure => present,
     managehome => false,
     group => $group,
