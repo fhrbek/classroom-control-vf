@@ -1,5 +1,5 @@
 class nginx (
-  $root = $nginx::params::default_docroot
+  $docroot = $nginx::params::default_docroot
 ) inherits nginx::params {
 
   File {
@@ -13,12 +13,12 @@ class nginx (
     ensure => present,
   }
   
-  file { [$root, $confdir]:
+  file { [$docroot, $confdir]:
     ensure => directory,
     require => Package[$ng],
   }
   
-  file { "${root}/index.html":
+  file { "${docroot}/index.html":
     source => 'puppet:///modules/nginx/index.html',
   }
   
@@ -32,7 +32,7 @@ class nginx (
 
   service { $ng:
     ensure => running,
-    require => File["${root}/index.html"],
+    require => File["${docroot}/index.html"],
     subscribe => File["${confdir}/${ng}.conf", "${confdir}/conf.d/default.conf"],
   }
 }
