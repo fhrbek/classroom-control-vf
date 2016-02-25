@@ -43,6 +43,8 @@ node default {
   # Example:
   #   class { 'my_class': }
   notify { "Hello, my name is ${::hostname}": }
+  $hiera_message = hiera('message')
+  notify { "This message comes from hiera: ${hiera_message}": }
   
   #file { '/etc/motd':
   #  ensure  => file,
