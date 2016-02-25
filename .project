@@ -3,7 +3,10 @@
 	<name>classroom-control-vf</name>
 	<comment></comment>
 	<projects>
+		<project>epel</project>
 		<project>inifile</project>
+		<project>limits</project>
+		<project>redis</project>
 		<project>stdlib</project>
 	</projects>
 	<buildSpec>
