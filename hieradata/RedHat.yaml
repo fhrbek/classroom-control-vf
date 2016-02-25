@@ -1,0 +1,3 @@
+---
+'message': "This is a node specific message from %{clientcert}"
+'nginx::docroot': /var/wwwfun
