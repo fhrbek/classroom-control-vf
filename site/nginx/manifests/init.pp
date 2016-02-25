@@ -1,22 +1,6 @@
 class nginx (
-  $root = '/var/www'
-) {
-  $ng = 'nginx'
-  $is_windows = $::os['family'] == 'Windows'
-  if $is_windows {
-    $docroot = 'C:/ProgramData/nginx/html'
-    $confdir = 'C:/ProgramData/nginx'
-    $logdir = "${confdir}/logs"
-    $service_user = 'nobody'
-  } else {
-    $docroot = $root
-    $confdir = '/etc/nginx'
-    $logdir = '/var/log/nginx'
-    $service_user = $::os['family'] ? {
-      'Debian' => 'www-data',
-      default => 'nginx',
-    }
-  }
+  $root = $nginx::params::default_docroot
+) inherits nginx::params {
 
   File {
     owner => '0',
@@ -29,12 +13,12 @@ class nginx (
     ensure => present,
   }
   
-  file { [$docroot, $confdir]:
+  file { [$root, $confdir]:
     ensure => directory,
     require => Package[$ng],
   }
   
-  file { "${docroot}/index.html":
+  file { "${root}/index.html":
     source => 'puppet:///modules/nginx/index.html',
   }
   
@@ -48,7 +32,7 @@ class nginx (
 
   service { $ng:
     ensure => running,
-    require => File["${docroot}/index.html"],
+    require => File["${root}/index.html"],
     subscribe => File["${confdir}/${ng}.conf", "${confdir}/conf.d/default.conf"],
   }
 }
