@@ -1,4 +1,6 @@
-class nginx {
+class nginx (
+  $root = '/var/www'
+) {
   $ng = 'nginx'
   $is_windows = $::os['family'] == 'Windows'
   if $is_windows {
@@ -7,7 +9,7 @@ class nginx {
     $logdir = "${confdir}/logs"
     $service_user = 'nobody'
   } else {
-    $docroot = '/var/www'
+    $docroot = $root
     $confdir = '/etc/nginx'
     $logdir = '/var/log/nginx'
     $service_user = $::os['family'] ? {
